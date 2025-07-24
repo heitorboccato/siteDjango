@@ -1,0 +1,28 @@
+{% extends "calculadora/base.html" %}
+{% load static %}
+
+{% block title %}Dashboards{% endblock %}
+
+{% block content %}
+<h1>DASHBOARDS</h1>
+<div class="grid-container">
+  <div class="grid">
+    <a href="{% url 'registrar_clique' 'powerbi_AMEI' %}" class="card" target="_blank">
+      <i class="fa-solid fa-heart-pulse fa-3x"></i>
+      <p>Acesso ao PowerBI do AMEI</p>
+    </a>
+    <a href="{% url 'registrar_clique' 'powerbi_Feegow' %}" class="card" target="_blank">
+      <i class="fas fa-chart-line fa-3x"></i>
+      <p>Acesso ao PowerBI do Feegow</p>
+    </a>
+    <a href="{% url 'registrar_clique' 'powerbi_Odonto' %}" class="card" target="_blank">
+      <i class="fa-solid fa-tooth fa-3x"></i>
+      <p>Acesso ao PowerBI da Odontologia</p>
+    </a>
+    <a href="#" class="card">
+      <i class="fas fa-book-open fa-3x"></i>
+      <p>Manuais e Documentações</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

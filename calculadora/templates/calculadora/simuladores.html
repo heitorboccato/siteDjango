@@ -1,0 +1,28 @@
+{% extends "calculadora/base.html" %}
+{% load static %}
+
+{% block title %}Simuladores e Calculadoras{% endblock %}
+
+{% block content %}
+<h1>Simuladores e Calculadoras</h1>
+<div class="grid-container">
+  <div class="grid">
+    <a href="{% url 'registrar_clique' 'simulador_exames' %}" class="card" target="_blank">
+      <i class="fa-solid fa-heart-pulse fa-3x"></i>
+      <p>Simulador Exames</p>
+    </a>
+    <a href="{% url 'registrar_clique' 'simulador_compra' %}" class="card" target="_blank">
+      <i class="fas fa-chart-line fa-3x"></i>
+      <p>Simulador Compra de Equipamentos</p>
+    </a>
+    <a href="{% url 'registrar_clique' 'calculadora' %}" class="card" target="_blank">
+      <i class="fa-solid fa-user-doctor fa-3x"></i>
+      <p>Simulador Cálculo de Profissionais</p>
+    </a>
+    <a href="#" class="card">
+      <i class="fas fa-book-open fa-3x"></i>
+      <p>Manuais e Documentações</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

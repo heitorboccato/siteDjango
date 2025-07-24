@@ -1,0 +1,102 @@
+{% extends "calculadora/base.html" %}
+{% load tz %}
+{% load extras %}
+
+
+{% block title %}Estatísticas de Cliques{% endblock %}
+
+{% block content %}
+<div class="stats-container">
+  <h2 style="margin-top: 40px;">Total de Cliques por Botão</h2>
+  <form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="usuario" placeholder="Buscar por nome" value="{{ request.GET.usuario }}">
+    <input type="date" name="data_inicio" value="{{ request.GET.data_inicio }}">
+    <input type="date" name="data_fim" value="{{ request.GET.data_fim }}">
+    <button type="submit">Filtrar</button>
+    <a href="{% url 'estatisticas_cliques' %}">Limpar</a>
+  </form>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Botão</th>
+        <th>Total de Cliques</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in total_por_botao %}
+      <tr>
+        <td>{{ item.nome_botao }}</td>
+        <td>{{ item.total_cliques }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Estatísticas de Cliques</h2>
+</form>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Botão</th>
+        <th>Total de Cliques</th>
+        <th>Usuário</th>
+        <th>Email</th>
+        <th>Unidade</th>
+        <th>Data/Hora</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for clique in cliques %}
+      <tr>
+        <td>{{ clique.nome_botao }}</td>
+        <td>{{ totais_dict|get_item:clique.nome_botao }}</td>
+        <td>{{ clique.usuario.nome }}</td>
+        <td>{{ clique.usuario.email }}</td>
+        <td>{{ clique.usuario.unidade }}</td>
+        <td>{{ clique.timestamp|date:"d/m/Y H:i" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .stats-container {
+    background: white;
+    padding: 30px;
+    max-width: 1100px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  .stats-container h2 {
+    color: #0e2d47;
+    margin-bottom: 25px;
+  }
+
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .styled-table th {
+    background-color: #5fd0d8;
+    color: #0e2d47;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .styled-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .styled-table tr:hover {
+    background-color: #f0faff;
+  }
+</style>
+{% endblock %}

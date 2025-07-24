@@ -1,0 +1,369 @@
+{% extends "calculadora/base.html" %}
+{% block title %}FAQ{% endblock %}
+
+{% block content %}
+<h1>Central de Ajuda • FAQ</h1>
+<p style="margin-bottom: 30px;">
+  Escolha uma área abaixo para visualizar perguntas frequentes relacionadas.
+</p>
+
+<div class="faq-categorias">
+<div style="position: relative; margin-bottom: 20px;">
+  <input type="text" id="faq-search" placeholder="Buscar nas perguntas..." style="width: 100%; padding: 10px 5px 10px 10px; border-radius: 10px; border: 1px solid #ccc;">
+  <button id="clear-search" style="position: absolute; right: 1px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: #888;" title="Limpar">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</div>
+  <!-- CAMADA 1 – Categorias -->
+  <button class="categoria-btn">📊 Dashboard Operacional</button>
+  <div class="categoria-content">
+
+    <!-- CAMADA 2 – Tópicos dentro do Dashboard -->
+    <button class="faq-toggle">📊 Visão Geral</button>
+  <div class="faq-content">
+    <details><summary>1. O que é o Dashboard Operacional do Amei?</summary>
+      <p>É uma ferramenta visual desenvolvida no Power BI para monitorar os principais indicadores operacionais das unidades AmorSaúde. Ele permite análises por período, unidade, canal, convênio, profissional e especialidade.</p>
+    </details>
+    <details><summary>2. Quais são os principais indicadores disponíveis?</summary>
+      <ul>
+        <li>Agendamentos: volume total de agendamentos realizados.</li>
+        <li>Atendimentos: número de pacientes efetivamente atendidos.</li>
+        <li>Conversão: percentual de agendamentos que viraram atendimentos.</li>
+        <li>Faturamento Bruto: total financeiro gerado, independente da forma de pagamento.</li>
+        <li>Ticket Médio: média de faturamento por atendimento ou por paciente.</li>
+      </ul>
+    </details>
+  </div>
+
+  <button class="faq-toggle">📈 Abas do Dashboard</button>
+<div class="faq-content">
+  <details><summary>3. Como interpretar a aba “Resumo”?</summary>
+    <p>Essa aba traz uma visão consolidada de performance, com histórico de 12 meses, funil de conversão, e um painel com comparativo entre metas e realizações. É ideal para decisões rápidas e para ter uma visão macro da unidade.</p>
+  </details>
+
+  <details><summary>4. O que é o Funil de Conversão?</summary>
+    <p>É a representação visual da jornada do paciente dentro da clínica: <strong>Agendamentos → Atendimentos → Prescrições → Pedidos de Exames</strong>. Ele serve para identificar em quais etapas a clínica pode estar perdendo eficiência.</p>
+  </details>
+
+  <details><summary>5. Como uso a aba “Consultas”?</summary>
+    <p>Essa aba foca na jornada da consulta. Apresenta dados como o número de QCA (clientes ativos), percentual de atingimento de metas e taxa de conversão por colaborador e profissional.</p>
+  </details>
+
+  <details><summary>6. Qual o objetivo da aba “Prescrição de Medicamentos”?</summary>
+    <p>Avaliar a quantidade de receitas emitidas, o percentual de atendimentos com prescrição e a performance de prescrição por especialidade e profissional.</p>
+  </details>
+
+  <details><summary>7. O que encontro na aba “Tempo de Espera”?</summary>
+    <p>Mostra o tempo médio entre o agendamento e o atendimento, com possibilidade de filtro por profissional, canal, convênio e especialidade.</p>
+  </details>
+
+  <details><summary>8. Como usar a aba “Exames e Procedimentos”?</summary>
+    <p>Permite monitorar o ciclo de orçamentos: itens orçados vs. vendidos, valor potencial vs. realizado, taxa de conversão por colaborador e ticket médio dos exames/procedimentos.</p>
+  </details>
+
+  <details><summary>9. E a aba “Financeiro”?</summary>
+    <p>Oferece uma visão completa da saúde financeira da unidade, com dados sobre receita (por competência e por caixa), custos, lucro ou prejuízo e detalhamento por serviço e forma de pagamento.</p>
+  </details>
+
+  <details><summary>10. Como interpretar o 'Regime de Caixa' e 'Regime de Competência'?</summary>
+    <ul>
+      <li><strong>Competência:</strong> considera a data em que a venda ocorreu, independentemente do pagamento.</li>
+      <li><strong>Caixa:</strong> considera a data em que o valor foi efetivamente recebido.</li>
+    </ul>
+  </details>
+</div>
+
+  <button class="faq-toggle">❓ Dúvidas Frequentes</button>
+  <div class="faq-content">
+    <details><summary>11. Onde vejo o acompanhamento das metas?</summary>
+      <p>Na aba Metas Orçamentárias: média diária realizada, meta diária necessária e progresso percentual no mês.</p>
+    </details>
+    <details><summary>12. Como aplicar filtros corretamente?</summary>
+      <p>Os filtros estão sempre no topo ou no canto esquerdo. Antes de analisar os dados, confira se estão corretos: período, unidade, convênio, canal, regional.</p>
+    </details>
+    <details><summary>13. Como posso tirar dúvidas ou solicitar suporte?</summary>
+      <p>Fale com a área de Inteligência de Negócios via ZEEV. Estamos prontos para ajudar na interpretação dos dados e apoiar decisões.</p>
+    </details>
+    <details><summary>14. O que é o 'Dicionário de Métricas'?</summary>
+      <p>É um glossário disponível no dashboard (canto inferior esquerdo) com definições de indicadores, fórmulas, periodicidade e fonte dos dados.</p>
+    </details>
+    <details><summary>15. Posso estragar algo usando o dashboard?</summary>
+      <p>Não. Nenhuma ação altera os dados. Explore à vontade.</p>
+    </details>
+  </div>
+  </div>
+
+  <!-- OUTRA CATEGORIA -->
+  <button class="categoria-btn">🧮 Calculadoras e Simuladores</button>
+  <div class="categoria-content">
+    <button class="faq-toggle">Geral</button>
+    <div class="faq-content">
+      <details><summary>1. Para que servem os simuladores?</summary>
+        <p>Permitem prever resultados com base em parâmetros reais...</p>
+      </details>
+      <!-- ... -->
+    </div>
+  </div>
+
+  <!-- OUTRA CATEGORIA -->
+  <button class="categoria-btn">👥 Gestão de Usuários</button>
+  <div class="categoria-content">
+    <!-- Tópico: Introdução ao Power BI -->
+  <button class="faq-toggle">📌 Introdução ao Power BI</button>
+  <div class="faq-content">
+    <details><summary>1. O que é o Power BI?</summary>
+      <p>É uma ferramenta da Microsoft para visualização de dados. Permite transformar dados brutos em dashboards interativos e relatórios fáceis de interpretar.</p>
+    </details>
+    <details><summary>2. Preciso instalar algo para acessar os dashboards?</summary>
+      <p>Não. Os dashboards estão disponíveis online pelo navegador. Você só precisa de um login autorizado.</p>
+    </details>
+  </div>
+
+  <!-- Tópico: Navegação e Filtros -->
+  <button class="faq-toggle">🧭 Navegação e Filtros</button>
+  <div class="faq-content">
+    <details><summary>3. O que são os filtros no Power BI?</summary>
+      <p>São opções que permitem selecionar apenas um recorte específico dos dados (ex.: período, unidade, canal, convênio). Eles estão geralmente no topo ou nas laterais do dashboard.</p>
+    </details>
+    <details><summary>4. Meus dados não aparecem corretamente, o que pode ser?</summary>
+      <p>Verifique se os filtros estão corretos. Filtros incorretos (como datas muito restritas ou combinação de filtros incompatíveis) podem ocultar dados importantes.</p>
+    </details>
+    <details><summary>5. Como saber se os dados estão atualizados?</summary>
+      <p>No canto inferior esquerdo de cada dashboard há uma data de atualização. Se estiver desatualizado, acione o time de Inteligência de Negócio.</p>
+    </details>
+  </div>
+
+  <!-- Tópico: Interpretação de Dashboards -->
+  <button class="faq-toggle">📊 Interpretação de Dashboards</button>
+  <div class="faq-content">
+    <details><summary>6. O que significa “sem dados” ou visual em branco?</summary>
+      <p>Significa que não há registros para os filtros aplicados. Tente remover ou ampliar os filtros para validar.</p>
+    </details>
+    <details><summary>7. Como interpretar gráficos de linha, barra, funil ou mapa?</summary>
+      <p>Passe o mouse sobre os elementos para ver os números exatos. Cada visual representa uma métrica sob diferentes perspectivas (tempo, unidade, categoria, etc.).</p>
+    </details>
+  </div>
+
+  <!-- Tópico: Exportação e Ajustes -->
+  <button class="faq-toggle">⚙️ Exportação e Ajustes</button>
+  <div class="faq-content">
+    <details><summary>8. Posso exportar os dados ou gráficos?</summary>
+      <p>Sim. Clique nos três pontinhos no canto superior direito de cada visual e selecione a opção 'Exportar dados'. A exportação será feita em Excel (.xlsx) ou CSV, dependendo da configuração.</p>
+    </details>
+    <details><summary>9. Como solicitar ajustes em dashboards?</summary>
+      <p>Todas as solicitações devem ser feitas via ZEEV, descrevendo o problema, a aba afetada e o tipo de ajuste desejado. Quanto mais claro, mais rápido será atendido.</p>
+    </details>
+  </div>
+
+  <!-- Tópico: Erros e Acessos -->
+  <button class="faq-toggle">🚫 Erros e Acessos</button>
+  <div class="faq-content">
+    <details><summary>10. Tenho acesso negado ou vejo uma mensagem de erro. O que fazer?</summary>
+      <p>Verifique se está logado com o e-mail corporativo autorizado. Caso o problema persista, abra um chamado no ZEEV com print e descrição do erro.</p>
+    </details>
+  </div>
+
+  <!-- Tópico: Segurança -->
+  <button class="faq-toggle">🔐 Segurança</button>
+  <div class="faq-content">
+    <details><summary>11. O Power BI é seguro?</summary>
+      <p>Sim. A plataforma segue protocolos de segurança da Microsoft, e o acesso é controlado por login corporativo e permissões específicas.</p>
+    </details>
+  </div>
+
+  </div>
+</div>
+
+<!-- ESTILO -->
+<style>
+  .faq-categorias {
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .categoria-btn {
+    width: 100%;
+    background-color: #0e2d47;
+    color: white;
+    padding: 16px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    margin: 15px 0 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .categoria-btn:hover {
+    background-color: #1b5584;
+  }
+
+  .categoria-content {
+    display: none;
+    padding-left: 10px;
+    border-left: 4px solid #5fd0d8;
+    margin-bottom: 20px;
+  }
+
+  .faq-toggle {
+    width: 100%;
+    background-color: #2678bb;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .faq-content {
+    display: none;
+    padding: 10px 20px;
+    background: #f9f9f9;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .faq-content details {
+    margin-bottom: 15px;
+  }
+
+  summary {
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+
+<!-- SCRIPTS -->
+<script>
+  // Camada 1 – Categoria
+  document.querySelectorAll('.categoria-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+
+  // Camada 2 – Tópicos
+  document.querySelectorAll('.faq-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+  // Script Busca
+const searchInput = document.getElementById('faq-search');
+
+searchInput.addEventListener('input', function () {
+    const term = this.value.trim().toLowerCase();
+
+    const categoriaContents = document.querySelectorAll('.categoria-content');
+    const categoriaBtns = document.querySelectorAll('.categoria-btn');
+    const toggleBtns = document.querySelectorAll('.faq-toggle');
+    const faqContents = document.querySelectorAll('.faq-content');
+    const details = document.querySelectorAll('.faq-content details');
+
+    // Zerar tudo
+    categoriaBtns.forEach(btn => btn.style.display = 'none');
+    categoriaContents.forEach(c => c.style.display = 'none');
+    toggleBtns.forEach(btn => btn.style.display = 'none');
+    faqContents.forEach(faq => faq.style.display = 'none');
+    details.forEach(detail => {
+        detail.style.display = 'none';
+        detail.open = false;
+    });
+
+    // Se busca estiver vazia: restaurar visualização padrão
+    if (term === '') {
+        categoriaBtns.forEach(btn => btn.style.display = '');
+        categoriaContents.forEach(c => c.style.display = 'none');
+        toggleBtns.forEach(btn => btn.style.display = '');
+        faqContents.forEach(faq => faq.style.display = 'none');
+        details.forEach(detail => {
+            detail.style.display = '';
+            detail.open = false;
+        });
+        return;
+    }
+
+    // Aplicar busca
+    details.forEach(detail => {
+        const text = detail.innerText.toLowerCase();
+        if (text.includes(term)) {
+            detail.style.display = '';
+            detail.open = true;
+
+            const faqContent = detail.closest('.faq-content');
+            const categoriaContent = detail.closest('.categoria-content');
+
+            if (faqContent) faqContent.style.display = 'block';
+            if (categoriaContent) categoriaContent.style.display = 'block';
+        }
+    });
+});
+
+const searchInput2 = document.getElementById('faq-search');
+  const clearBtn = document.getElementById('clear-search');
+
+  function resetFAQ() {
+    const categoriaBtns = document.querySelectorAll('.categoria-btn');
+    const categoriaContents = document.querySelectorAll('.categoria-content');
+    const toggleBtns = document.querySelectorAll('.faq-toggle');
+    const faqContents = document.querySelectorAll('.faq-content');
+    const details = document.querySelectorAll('.faq-content details');
+
+    categoriaBtns.forEach(btn => btn.style.display = '');
+    toggleBtns.forEach(btn => btn.style.display = '');
+    categoriaContents.forEach(c => c.style.display = 'none');
+    faqContents.forEach(faq => faq.style.display = 'none');
+    details.forEach(detail => {
+      detail.style.display = '';
+      detail.open = false;
+    });
+  }
+
+  searchInput2.addEventListener('input', function () {
+    const term = this.value.trim().toLowerCase();
+
+    const categoriaBtns = document.querySelectorAll('.categoria-btn');
+    const categoriaContents = document.querySelectorAll('.categoria-content');
+    const toggleBtns = document.querySelectorAll('.faq-toggle');
+    const faqContents = document.querySelectorAll('.faq-content');
+    const details = document.querySelectorAll('.faq-content details');
+
+    if (term === '') {
+      resetFAQ();
+      return;
+    }
+
+    categoriaBtns.forEach(btn => btn.style.display = 'none');
+    categoriaContents.forEach(c => c.style.display = 'none');
+    toggleBtns.forEach(btn => btn.style.display = 'none');
+    faqContents.forEach(faq => faq.style.display = 'none');
+    details.forEach(detail => {
+      detail.style.display = 'none';
+      detail.open = false;
+    });
+
+    details.forEach(detail => {
+      const text = detail.innerText.toLowerCase();
+      if (text.includes(term)) {
+        detail.style.display = '';
+        detail.open = true;
+
+        const faqContent = detail.closest('.faq-content');
+        const categoriaContent = detail.closest('.categoria-content');
+
+        if (faqContent) faqContent.style.display = 'block';
+        if (categoriaContent) categoriaContent.style.display = 'block';
+      }
+    });
+  });
+
+  clearBtn.addEventListener('click', function () {
+    searchInput2.value = '';
+    resetFAQ();
+  });
+</script>
+{% endblock %}

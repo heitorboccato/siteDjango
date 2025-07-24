@@ -1,0 +1,82 @@
+{% extends "calculadora/base.html" %}
+{% load tz %}
+{% load extras %}
+
+
+{% block title %}Estatísticas de Visitas{% endblock %}
+
+{% block content %}
+<div class="stats-container">
+  <h2>Estatísticas de Visitas</h2>
+  <form method="get" style="margin-bottom: 20px;">
+  <input type="date" name="data_inicio" value="{{ request.GET.data_inicio }}">
+  <input type="date" name="data_fim" value="{{ request.GET.data_fim }}">
+  <button type="submit">Filtrar</button>
+  <a href="{% url 'estatisticas_visitas' %}">Limpar</a>
+</form>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Página</th>
+        <th>Total de Acessos</th>
+        <th>Usuários Únicos</th>
+        <th>Último Acesso</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if visitas %}
+        {% for visita in visitas %}
+        <tr>
+          <td>{{ visita.path }}</td>
+          <td>{{ visita.total_acessos }}</td>
+          <td>{{ visita.usuarios_unicos }}</td>
+          <td>{{ visita.ultimo_acesso|localtime|date:"d/m/Y H:i" }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr><td colspan="4">Nenhum acesso registrado ainda.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .stats-container {
+    background: white;
+    padding: 30px;
+    max-width: 1000px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  .stats-container h2 {
+    color: #0e2d47;
+    margin-bottom: 25px;
+  }
+
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .styled-table th {
+    background-color: #5fd0d8;
+    color: #0e2d47;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .styled-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .styled-table tr:hover {
+    background-color: #f0faff;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Repasse</title>
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f3f3f3; padding: 20px; }
+    h2 { background-color: #0c223c; color: white; padding: 10px; border-radius: 15px; text-align: center; }
+    form { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+    .coluna { float: left; padding: 15px; }
+    .col1 { width: 20%; }
+    .col2 { width: 30%; }
+    .col3 { width: 30%; }
+    .col4 { width: 20%; }
+    .linha:after { content: ""; display: table; clear: both; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; }
+    .caixa { padding: 10px; margin-top: 10px; border-radius: 8px; font-weight: bold; }
+    .azul { background-color: #61c1d0; color: white; }
+    .vermelho { background-color: #d73834; color: #ffffff; }
+    .tooltip:hover::after { content: attr(data-title); position: absolute; background: black; color: white; padding: 5px; border-radius: 5px; }
+    .mensagem { margin-top: 1px; padding: 10px; border-radius: 6px; }
+    .erro { background: #ffd6d6; border-left: 5px solid red; }
+    .sucesso { background: #d6ffd8; border-left: 5px solid green; }
+    .revenue { background: #fffea5; border-left: 5px solid yellow; }
+    .botoes { margin-top: 20px; text-align: center; }
+    .expander {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .expander summary {
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 16px;
+  }
+
+  .expander ul {
+    margin: 0;
+    padding: 10px 20px;
+    list-style-type: none;
+  }
+
+  .expander li {
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+.container-principal {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+}
+
+.painel-lateral {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logo-calculadora {
+  width: 150px;
+  height: auto;
+}
+
+.logo-amorzito {
+  width: 75px;
+  height: auto;
+}
+
+.slogan {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+}
+
+.descricao {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.botoes button {
+  display: block;
+  width: 75%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #eceff1;
+  color: rgb(0, 0, 0);
+  border: line;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.botoes button:hover {
+  background-color: #c3c3c3;
+}
+.botaoBaixar button {
+  display: inline;
+  width: 60%;
+  padding: 10px;
+  margin-left: 15px;
+  background-color: #ececec;
+  color: rgb(0, 0, 0);
+  border: line;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.botaoBaixar button:hover {
+  background-color: #a8a8a8;
+}
+form#form-repasse {
+  flex-grow: 1;
+  max-width: 1000px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 550px;
+}
+  </style>
+</head>
+<body>
+  {% load static %}
+  <h2 id="titulo_modelo">Calculadora de Repasse para Profissional - Tradicional</h2>
+  <div class="container-principal">
+    <div class="painel-lateral">
+      <img src="{% static 'calculadora/imagens/logo.png' %}" alt="Logo" class="logo-calculadora">
+
+      <h3 class="slogan">"Negocie com clareza, decida com dados."</h3>
+
+      <p class="descricao">
+        Essa calculadora ajuda você a simular diferentes cenários de negociação com profissionais médicos.
+      </p>
+
+      <div class="botoes">
+        <button type="button" onclick="setModo('tradicional')">Tradicional</button>
+        <button type="button" onclick="setModo('revenue')">Revenue Share</button>
+      </div>
+      <div class="botaoBaixar">
+        <a href="{% static 'calculadora/pdfs/Manual - Calculadora de Repasse.pdf' %}" download>
+          <button type="button">📥 Baixar Manual - PDF</button>
+        </a>
+      </div>
+    </div>
+      <form id="form-repasse" oninput="calcularTradicional()">
+    <div class="linha">
+      <div class="coluna col2">
+        <h3>⚙️ Parâmetros</h3>
+        <label>Valor por Consulta (R$):
+          <input id="valor_consulta" type="number" step="1" value="40">
+        </label>
+        <label>Qtde. de Consultas:
+          <input id="qtde_consultas" type="number" value="40">
+        </label>
+        <label>Repasse por Consulta (R$):
+          <input id="repasse" type="number" step="1" value="37">
+        </label>
+        <label>Deslocamento (R$):
+          <input id="deslocamento" type="number" step="1" value="100">
+        </label>
+        <label>% Margem Exames:
+          <input id="custo_exames_percent" type="range" min="0" max="100" value="20" oninput="document.getElementById('percent_exame').innerText = this.value + '%'">
+          <span id="percent_exame">20%</span>
+        </label>
+      </div>
+
+      <div class="coluna col3">
+        <h3>📊 Resultado Financeiro</h3>
+        <div class="caixa azul">Receita Total: R$ <span id="receita_total">0,00</span></div>
+        <div class="caixa vermelho">Custo Total: R$ <span id="custo_total">0,00</span></div>
+        <div class="caixa" id="resultado_final_box">Resultado: R$ <span id="resultado_final">0,00</span></div>
+        
+        <h3>🧪 Simulação de Exames</h3>
+        <div class="caixa azul">Venda Mínima Exame: R$ <span id="venda_minima_exame">0,00</span></div>
+        <div class="caixa vermelho">Custo Total Exame: R$ -<span id="custo_total_exame">0,00</span></div>
+        <div class="caixa vermelho">Resultado Exame: R$ <span id="resultado_exame">0,00</span></div>
+      </div>
+
+      <div class="coluna col3">
+        <details class="expander" open>
+          <summary>📦 Custos Detalhados</summary>
+          <ul id="custos_detalhados">
+            <!-- será preenchido via JS -->
+          </ul>
+        </details>
+        <div class="mensagem" id="mensagem_resultado"></div>
+        <div class="mensagem" id="mensagem_exame"></div>
+        <div class="mensagem" id="mensagem_revenue"></div>
+      </div>
+    </div>
+  </form>
+  <img src="{% static 'calculadora/imagens/amorzito2.png' %}" alt="Logo" class="logo-amorzito">
+  </div>
+
+<script>
+function formatarMoeda(valor) {
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+let modoAtual = "revenue"; // Modo inicial
+let resultadoFinal_RV_global = 0;
+
+function setModo(modo) {
+  modoAtual = modo;
+
+  if (modo === "tradicional") {
+    calcularTradicional();
+  } else if (modo === "revenue") {
+    calcularRevenue();
+  }
+}
+
+// Escuta mudanças em qualquer input do formulário e chama a função correta
+document.addEventListener("DOMContentLoaded", function () {
+  calcularRevenue();
+  const form = document.getElementById("form-repasse");
+  form.addEventListener("input", function () {
+    if (modoAtual === "tradicional") {
+      calcularTradicional();
+    } else if (modoAtual === "revenue") {
+      calcularRevenue();
+    }
+  });
+});
+
+function calcularTradicional() {
+  document.getElementById("titulo_modelo").innerText = "Calculadora de Repasse para Profissional - Tradicional";
+  const valorConsulta = parseFloat(document.getElementById("valor_consulta").value) || 0;
+  const qtdeConsultas = parseInt(document.getElementById("qtde_consultas").value) || 0;
+  const repasse = parseFloat(document.getElementById("repasse").value) || 0;
+  const deslocamento = parseFloat(document.getElementById("deslocamento").value) || 0;
+  const custoExamesPercent = parseInt(document.getElementById("custo_exames_percent").value) || 0;
+
+  const receitaTotal = valorConsulta * qtdeConsultas;
+
+  const impostos = {
+    "ISS (4%)": receitaTotal * 0.04,
+    "PIS (0,65%)": receitaTotal * 0.0065,
+    "COFINS (3%)": receitaTotal * 0.03,
+    "IR (8%)": receitaTotal * 0.08,
+    "CSLL (2,88%)": receitaTotal * 0.0288,
+    "Royalties (4%)": receitaTotal * 0.04,
+    "Taxa (3,5%)": receitaTotal * 0.035,
+  };
+  const totalImpostos = Object.values(impostos).reduce((a, b) => a + b, 0);
+
+  const custoTotal = (repasse * qtdeConsultas) + deslocamento + totalImpostos;
+  const resultadoFinal_NR = receitaTotal - custoTotal;
+
+  // Exames
+  let vendaMinimaExame = 0;
+  if (resultadoFinal_NR < 0 && custoExamesPercent < 100) {
+    vendaMinimaExame = (-resultadoFinal_NR) / (custoExamesPercent / 100);
+  }
+  const custoTotalExame = vendaMinimaExame * custoExamesPercent / 100;
+  const resultadoFinal_NR2 = vendaMinimaExame - custoTotalExame;
+  const resultadoFinal_NR_final = resultadoFinal_NR2 + resultadoFinal_NR;
+
+  // Preenchimento dos resultados
+  document.getElementById("receita_total").innerText = receitaTotal.toFixed(2);
+  document.getElementById("custo_total").innerText = custoTotal.toFixed(2);
+  document.getElementById("resultado_final").innerText = resultadoFinal_NR.toFixed(2);
+  document.getElementById("venda_minima_exame").innerText = vendaMinimaExame.toFixed(2);
+  document.getElementById("custo_total_exame").innerText = custoTotalExame.toFixed(2);  
+  document.getElementById("resultado_exame").innerText = resultadoFinal_NR2.toFixed(2);
+  document.getElementById("resultado_final_box").className = "caixa " + (resultadoFinal_NR > 0 ? "azul" : "vermelho");
+
+  // Impostos detalhados
+  const listaImpostos = Object.entries(impostos).map(([nome, valor]) =>
+    `<li>${nome}: ${formatarMoeda(valor)}</li>`).join("");
+  document.getElementById("custos_detalhados").innerHTML = listaImpostos;
+
+  // Mensagens
+  document.getElementById("mensagem_resultado").innerHTML =
+    resultadoFinal_NR > 0
+      ? `<div class="mensagem sucesso">Resultado positivo de ${formatarMoeda(resultadoFinal_NR)}</div>`
+      : `<div class="mensagem erro">Margem negativa de -${formatarMoeda(Math.abs(resultadoFinal_NR))}. Para zerar o prejuízo, ajuste a quantidade de consultas ou reduza custos.</div>`;
+
+  document.getElementById("mensagem_exame").innerHTML =
+    `<div class="mensagem sucesso">Venda mínima de exames: ${formatarMoeda(vendaMinimaExame)} para cobrir prejuízo</div>`;
+  calcularRevenueSimples();
+  if (resultadoFinal_RV_global !== 0) {
+  document.getElementById("mensagem_revenue").innerHTML = 
+    `<div class="mensagem revenue">Se a Unidade estivesse utilizando o modelo Revenue Share, o resultado seria de ${formatarMoeda(resultadoFinal_RV_global)}.</div>`;
+  }
+}
+function calcularRevenue() {
+  document.getElementById("titulo_modelo").innerText = "Calculadora de Repasse para Profissional - Revenue Share";
+  const valorConsulta = parseFloat(document.getElementById("valor_consulta").value) || 0;
+  const qtdeConsultas = parseInt(document.getElementById("qtde_consultas").value) || 0;
+  const repasse = parseFloat(document.getElementById("repasse").value) || 0;
+  const deslocamento = parseFloat(document.getElementById("deslocamento").value) || 0;
+  const custoExamesPercent = parseInt(document.getElementById("custo_exames_percent").value) || 0;
+
+  const receitaTotal = valorConsulta * qtdeConsultas;
+  const faturamentoClinica = valorConsulta - repasse;
+  const receitaTotalClinica = faturamentoClinica * qtdeConsultas;
+
+  const impostos = {
+    "ISS (4%)": receitaTotalClinica * 0.04,
+    "PIS (0,65%)": receitaTotalClinica * 0.0065,
+    "COFINS (3%)": receitaTotalClinica * 0.03,
+    "IR (8%)": receitaTotalClinica * 0.08,
+    "CSLL (2,88%)": receitaTotalClinica * 0.02875,
+    "Royalties (4%)": receitaTotal * 0.04,
+    "Taxa (3,5%)": receitaTotalClinica * 0.035,
+  };
+
+  const totalImpostos = Object.values(impostos).reduce((a, b) => a + b, 0);
+  const custoTotal = (repasse * qtdeConsultas) + deslocamento + totalImpostos;
+  const resultadoFinal_RV = receitaTotal - custoTotal;
+
+  // Exames
+  let vendaMinimaExame = 0;
+  if (resultadoFinal_RV < 0 && custoExamesPercent < 100) {
+    vendaMinimaExame = (-resultadoFinal_RV) / (custoExamesPercent / 100);
+  }
+
+  const custoTotalExame = vendaMinimaExame * custoExamesPercent / 100;
+  const resultadoExame = vendaMinimaExame - custoTotalExame;
+  const resultadoFinal_RV_final = resultadoExame + resultadoFinal_RV;
+
+  // Atualização visual
+  document.getElementById("receita_total").innerText = receitaTotal.toFixed(2);
+  document.getElementById("custo_total").innerText = custoTotal.toFixed(2);
+  document.getElementById("resultado_final").innerText = resultadoFinal_RV.toFixed(2);
+  document.getElementById("venda_minima_exame").innerText = vendaMinimaExame.toFixed(2);
+  document.getElementById("custo_total_exame").innerText = custoTotalExame.toFixed(2);  
+  document.getElementById("resultado_exame").innerText = resultadoExame.toFixed(2);
+  document.getElementById("resultado_final_box").className = "caixa " + (resultadoFinal_RV > 0 ? "azul" : "vermelho");
+
+  const listaImpostos = Object.entries(impostos).map(([nome, valor]) =>
+    `<li>${nome}: ${formatarMoeda(valor)}</li>`).join("");
+  document.getElementById("custos_detalhados").innerHTML = listaImpostos;
+
+  document.getElementById("mensagem_resultado").innerHTML =
+    resultadoFinal_RV > 0
+      ? `<div class="mensagem sucesso">Resultado positivo de ${formatarMoeda(resultadoFinal_RV)}</div>`
+      : `<div class="mensagem erro">Margem negativa de ${formatarMoeda(Math.abs(resultadoFinal_RV))}. Para zerar o prejuízo, ajuste a quantidade de consultas ou reduza custos.</div>`;
+
+  document.getElementById("mensagem_exame").innerHTML =
+    `<div class="mensagem sucesso">Venda mínima de exames: ${formatarMoeda(vendaMinimaExame)} para cobrir prejuízo</div>`;
+  resultadoFinal_RV_global = resultadoFinal_RV;
+  document.getElementById("mensagem_revenue").innerHTML = "";
+}
+
+function calcularRevenueSimples() {
+  const valorConsulta = parseFloat(document.getElementById("valor_consulta").value) || 0;
+  const qtdeConsultas = parseInt(document.getElementById("qtde_consultas").value) || 0;
+  const repasse = parseFloat(document.getElementById("repasse").value) || 0;
+  const deslocamento = parseFloat(document.getElementById("deslocamento").value) || 0;
+
+  const receitaTotal = valorConsulta * qtdeConsultas;
+  const faturamentoClinica = valorConsulta - repasse;
+  const receitaTotalClinica = faturamentoClinica * qtdeConsultas;
+
+  const impostos = {
+    "ISS (4%)": receitaTotalClinica * 0.04,
+    "PIS (0,65%)": receitaTotalClinica * 0.0065,
+    "COFINS (3%)": receitaTotalClinica * 0.03,
+    "IR (8%)": receitaTotalClinica * 0.08,
+    "CSLL (2,88%)": receitaTotalClinica * 0.02875,
+    "Royalties (4%)": receitaTotal * 0.04,
+    "Taxa (3,5%)": receitaTotalClinica * 0.035,
+  };
+  const totalImpostos = Object.values(impostos).reduce((a, b) => a + b, 0);
+  const custoTotal = (repasse * qtdeConsultas) + deslocamento + totalImpostos;
+  const resultadoFinal_RV = receitaTotal - custoTotal;
+
+  resultadoFinal_RV_global = resultadoFinal_RV;
+}
+</script>
+</body>
+</html>

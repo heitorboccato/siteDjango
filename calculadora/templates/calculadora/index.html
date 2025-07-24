@@ -1,0 +1,138 @@
+{% extends "calculadora/base.html" %}
+
+{% block title %}Início{% endblock %}
+
+{% block content %}
+<div style="display: flex;">
+  <div class="boxInteligencia">
+    <div class="status-mini">
+      <strong>Status:</strong><br>
+      📊 PowerBI AMEI: <span class="dot {% if status.powerbi_online %}green{% else %}red{% endif %}"></span><br>
+      🩺 PowerBI Odonto: <span class="dot {% if status.powerbi_odonto %}green{% else %}red{% endif %}"></span>
+    </div>
+    <div class="time-inteligencia">
+      <h2>📊 Inteligência de Negócios AmorSaúde</h2>
+      <p>Conte com nosso time para transformar dados em decisões.</p>
+      <p>Estamos aqui para apoiar suas análises, estratégias e demandas com agilidade.</p>
+      <footer class="footer"><a class="footer-link" href="{% url 'registrar_clique' 'linkZeev' %}" target="_blank">Entre em contato pelo Zeev</a></footer>
+    </div>
+  </div>
+  <div style="flex: 1;">
+    <h1>Bem-vindo ao Portal de Inteligência AmorSaúde</h1>
+    <div class="grid-container">
+      <div class="grid">
+        <a href="https://app.powerbi.com/groups/51cc537c-5473-407a-bba4-05bb672d3e9e/list?experience=power-bi" class="card" target="_blank">
+          <i class="fas fa-chart-line fa-3x"></i>
+          <p>Acesso ao PowerBI</p>
+        </a>
+        <a href="{% url 'registrar_clique' 'simuladores' %}" class="card">
+          <i class="fas fa-calculator fa-3x"></i>
+          <p>Simulação de cenários<br>e negociações</p>
+        </a>
+        <a href="{% url 'registrar_clique' 'estudos' %}" class="card">
+          <i class="fas fa-file-alt fa-3x"></i>
+          <p>Estudo e Relatórios</p>
+        </a>
+        <a href="#" class="card">
+          <i class="fas fa-book-open fa-3x"></i>
+          <p>Manuais e Documentações</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .status-mini {
+    margin: 0 1rem 1rem 0;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: #0e2d47;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    max-width: 180px;
+    max-height: min-content;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+  }
+
+  .dot {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-left: 6px;
+  }
+
+  .green {
+    background-color: #02fb5e;
+  }
+
+  .red {
+    background-color: #ff0000;
+  }
+
+  .time-inteligencia h2 {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    color: #0e2d47;
+    line-height: 2;
+  }
+
+  .time-inteligencia p {
+    font-size: 14px;
+    color: #333;
+    margin: 4px 0;
+    line-height: 2;
+  }
+
+  .boxInteligencia {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #f2fdff;
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin: 0 30px 30px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    max-width: 240px;
+    gap: 16px;
+  }
+  .boxInteligencia,
+  .boxInteligencia p,
+  .boxInteligencia h2 {
+    font-family: 'Poppins', sans-serif;
+  }
+
+
+  .footer {
+    background-color: transparent;
+    color: #e2e8f0;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .footer a {
+    color: #ec2f5c;
+    text-decoration: underline;
+  }
+  .footer-link {
+  display: inline-block;
+  border: 2px solid #5fd0d8;
+  border-radius: 20px;
+  background-color: #f2fdff;
+  font-size: small;
+  font-weight: bold;
+  color: #ec2f5c;
+  padding: 10px 10px;
+  text-decoration: underline;
+  border-radius: 5px;
+  margin: 10px auto;
+}
+  .footer-link:hover {
+    background-color: #d8faff;
+  }
+</style>
+{% endblock %}
