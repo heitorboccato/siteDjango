@@ -19,7 +19,7 @@
     </div>
     <button type="submit" class="auth-button">Entrar</button>
   </form>
-  <p class="auth-link">Não tem conta? <a href="{% url 'cadastro' %}">Cadastre-se</a></p>
+  <p class="auth-link destaque-cadastro">Primeiro acesso? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a></p>
 </div>
 {% endblock %}
 
@@ -82,5 +82,17 @@
     text-decoration: none;
     font-weight: bold;
   }
+  .auth-link.destaque-cadastro {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 18px;
+  color: #0e2d47;
+}
+
+.auth-link.destaque-cadastro a {
+  color: #ec2f5c;
+  font-weight: bold;
+  text-decoration:underline;
+}
 </style>
 {% endblock %}
