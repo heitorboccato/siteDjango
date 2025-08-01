@@ -16,8 +16,6 @@
       <div class="logo">
         <img src="{% static 'calculadora/imagens/amorzito2.png' %}" alt="Logo">
       </div>
-      <div class="user-info">
-      </div>
       <nav class="menu">
         <a class="active" href="{% url 'registrar_clique' 'homepage' %}"><i class="fas fa-home"></i><span>Início</span></a>
         <a class="active" href="{% url 'registrar_clique' 'estudos' %}"><i class="fas fa-file-alt"></i><span>Estudos</span></a>
@@ -26,6 +24,11 @@
         <a class="active" href="{% url 'registrar_clique' 'manuais' %}"><i class="fas fa-book"></i><span>Manuais</span></a>
         <a class="inactive" href="#"><i class="fas fa-chalkboard-teacher"></i><span>Treinamentos</span></a>
         <a class="active" href="{% url 'registrar_clique' 'faq' %}"><i class="fas fa-question-circle"></i><span>F.A.Q</span></a>
+        {% if user.is_authenticated and user.is_staff %}
+          <a class="active" href="{% url 'registrar_clique' 'mapa_index' %}">
+            <i class="fas fa-map-marked-alt"></i><span>Mapa</span>
+          </a>
+        {% endif %}
         {% if user.is_authenticated %}
           <form action="{% url 'logout' %}" method="post" class="menu-logout-form">
             {% csrf_token %}
@@ -83,6 +86,9 @@
   width: 220px;
   align-items: center;
 }
+.sidebar:hover i{
+  font-size: 16px;
+}
 
 .sidebar .logo {
   padding: 20px 0;
@@ -132,7 +138,7 @@
 }
 
 .sidebar i {
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
 }
 

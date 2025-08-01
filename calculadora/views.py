@@ -75,6 +75,7 @@ def registrar_clique_redirect(request, nome_botao):
         'simuladores': '/simuladores/',
         'calculadora': '/calculadora/',
         'manuais': '/manuais/',
+        'mapa_index': '/mapa/',
         'faq': '/faq/',
         'homepage': '/',
     }

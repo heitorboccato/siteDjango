@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa de Saturação</title>
+  <link rel="stylesheet" href="{% static 'mapa_saturacao/styles.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container-principal">
+    <div class="painel-lateral">
+        <img src="{% static 'mapa_saturacao/imagens/amorzito2.png' %}" alt="Logo Amorzito" class="logo-amorzito">
+    </div>
+  
+  <div class="conteudo-e-info">
+    <div class="container">
+      <h2>Mapa de Saturação de Unidades</h2>
+
+      <form method="get" class="filtros">
+        
+        <label for="hora">Hora:</label>
+        <select name="hora" style="min-width: 100px;">
+          {% for h in horas %}
+            <option value="{{ h }}" {% if h == hora_selecionada %}selected{% endif %}>{{ h }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="unidade">Unidade:</label>
+        <select name="unidade">
+          {% for u in unidades %}
+            <option value="{{ u }}" {% if u == unidade_selecionada %}selected{% endif %}>{{ u }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="regional">Regional:</label>
+        <select name="regional">
+          {% for r in regionais %}
+            <option value="{{ r }}" {% if r == regional_selecionada %}selected{% endif %}>{{ r }}</option>
+          {% endfor %}
+        </select>
+        <a href="{% url 'baixar_excel' %}" class="botao-download">📤 Baixar relatório</a>
+        <a href="{% url 'baixar_parecer_pdf' %}" class="botao-download">📄 Baixar PDF</a>
+        <!--<button type="submit">Filtrar</button>-->
+      </form>
+
+      <div class="mapa-wrapper">
+        {% if mapa_html %}
+          {{ mapa_html|safe }}
+        {% else %}
+          <p class="aviso">Nenhum dado encontrado para os filtros selecionados.</p>
+        {% endif %}
+      </div>
+    </div>
+            <!-- Nova Área de Informações -->
+  </div>  
+    <div class="painel-informacoes-wrapper">
+      <img src="{% static 'mapa_saturacao/imagens/logo.png' %}" alt="Logo IDN" class="logo-idn">
+      <div class="painel-informacoes">
+        <h3>Resumo</h3>
+        <p>Total de unidades exibidas: <strong>{{ total_unidades }}</strong></p>
+        <p>🟢 Até 40%: <strong>{{ resumo_categorias.Baixa|default:"0" }}</strong></p>
+        <p>🟡 Entre 40% e 70%: <strong>{{ resumo_categorias.Média|default:"0" }}</strong></p>
+        <p>🔴 Acima de 70%: <strong>{{ resumo_categorias.Risco|default:"0" }}</strong></p>
+        <p>🔥 Acima de 100%: <strong>{{ resumo_categorias.Alta|default:"0" }}</strong></p>
+        <!-- Aqui você pode colocar mais informações dinâmicas -->
+         <br>
+         <h3>Unidades Saturadas</h3>
+         {{ top10_html|safe }}
+      </div>
+    </div>
+</div>
+    <!-- Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('select').select2({
+            width: 'resolve',
+            placeholder: 'Selecione uma opção',
+            allowClear: true
+            });
+        });
+          $(document).ready(function () {
+
+        // Ativa o Select2
+        $('select').select2({
+        width: 'resolve',
+        placeholder: 'Selecione uma opção',
+        allowClear: true
+        });
+
+        // Submete o formulário automaticamente ao mudar qualquer select
+        $('select').on('change', function () {
+        $(this).closest('form').submit();
+        });
+    });
+    </script>
+</body>
+</html>
