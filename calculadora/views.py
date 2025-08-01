@@ -69,7 +69,7 @@ def registrar_clique_redirect(request, nome_botao):
         'powerbi_Odonto': 'https://app.powerbi.com/groups/51cc537c-5473-407a-bba4-05bb672d3e9e/reports/864d8898-3e29-4bd5-9b4c-fa1046604e2b/b6ea7e9afad44cf11509?experience=power-bi',
         'simulador_exames': 'https://amorsaude.com.br/simulador_exames/',
         'simulador_compra': 'https://amorsaude.com.br/simulador/',
-        'linkZeev': 'https://amorsaude.zeev.it/2.0/request?c=1RDngcs16wLPbWO7oRV4%2BRCK%2B88FAC9CsFZc4DlFrPaKIX3SxUCM9E%2F%2FOoBE3w7vnAj4E0PyeygqyN0qLbB9VA%3D%3D',
+        'linkZeev': 'https://amorsaude.zeev.it/my/services#inteligencia_de_negocio',
         'estudos': '/estudos/',
         'dashboard': '/dashboard/',
         'simuladores': '/simuladores/',
